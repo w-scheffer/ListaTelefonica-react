@@ -1,36 +1,56 @@
 const people_aproved = [];
-const validateSignUpName = (name, cb) => { cb (name && name.length >= 3) };
-const validateSignUpAge = (age, cb) => { cb (age && age >= 18) };
-const validateSignUpPersonType = (type, cb) => { cb (type && type === "fisica") };
-const validateSingUpCPF = (cpf, cb) => { cb (!people_aproved.length || !people_aproved.find(aprovada => aprovada.cpf === cpf) )};
-const validateSignUp = (person, cb) => {
+const validateSignUpName = (name) => new Promise((resolve, reject) => {
+    const nameValid = name && name.length >= 3;
+    if (nameValid) {
+        return resolve();
+    } else {
+        return reject('Nome Invalido');
+    }
+})
+const validateSignUpAge = (age) => new Promise((resolve, reject) => {
+    const ageValid = age && age >= 18;
+    if (ageValid) {
+        return resolve();
+    } else {
+        return reject('Idade Invalida');
+    }
+})
+const validateSignUpPersonType = (type) => new Promise((resolve, reject) =>{
+    const typeValid = type && type === "fisica";
+    if (typeValid) {
+        return resolve();
+    } else {
+        reject('Tipo Invalido');
+    }
+})
+const validateSingUpCPF = (cpf) => new Promise((resolve, reject) => {
+    const cpfValid = (!people_aproved.length || !people_aproved.find(aprovada => aprovada.cpf === cpf));
+    if (cpfValid) {
+        return resolve();
+    } else {
+        reject('CPF Invalido');
+    }
+}) 
+const validateSignUp = (person) => new Promise ((resolve, reject) => {
     const { name,  age, type, cpf } = person || {};
-    validateSignUpName(name, (resultName) => {
-        if(resultName){
-            validateSignUpAge(age, (resultAge) => {
-                if (resultAge) {
-                    validateSignUpPersonType(type, (resultType) => {
-                        if (resultType){
-                            validateSingUpCPF(cpf, (resultCPF) => {
-                                if(resultCPF){
-                                    cb(true)
-                                } else {
-                                    cb(false)
-                                }
-                            })
-                        } else {
-                            cb(false)
-                        }
-                    })
-                } else {
-                    cb(false)
-                }
-            })
-        } else {
-            cb(false)
-        }
+    validateSignUpName(name)
+    .then(() => {
+        return validateSignUpAge(age)
     })
-}
+    .then(() => {
+        return validateSignUpPersonType(type)
+    })
+    .then(() => {
+        return validateSingUpCPF(cpf)
+    })
+    .then(() => {
+        resolve()
+    }).catch(error => {
+        reject()
+    }).finally(() => {
+        console.log('finalmente')
+    })
+})
 
 
 const makePerson = (name, age, cpf, type = "fisica") => {
@@ -42,15 +62,15 @@ const makePerson = (name, age, cpf, type = "fisica") => {
   };
 };
 const people_to_validate = [
-  makePerson( "joao", 20, "12"),
-  makePerson( "ana", 17, "13"),
-  makePerson( "maria", 19, "12"),
+    makePerson( "joao", 20, "12"),
+    makePerson( "ana", 17, "13"),
+    makePerson( "maria", 19, "12"),
 ];
 people_to_validate.forEach(person => {
-  validateSignUp(person, (resultSign) => {
-      if(resultSign){
-        people_aproved.push(person);
-      }
+  validateSignUp(person).then(() => {
+    people_aproved.push(person);
+  }).catch(error => {
+      console.log("cadastro invalido");
   })
 })
 console.log(people_aproved);
