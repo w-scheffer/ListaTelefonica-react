@@ -34,21 +34,19 @@ const validateSingUpCPF = (cpf) => new Promise((resolve, reject) => {
 const validateSignUp = (person) => new Promise ((resolve, reject) => {
     const { name,  age, type, cpf } = person || {};
     validateSignUpName(name)
-    .then(() => {
-        return validateSignUpAge(age)
-    })
-    .then(() => {
-        return validateSignUpPersonType(type)
-    })
-    .then(() => {
-        return validateSingUpCPF(cpf)
-    })
-    .then(() => {
+    .then(() => 
+        validateSignUpAge(age)
+    )
+    .then(() => 
+        validateSignUpPersonType(type)
+    )
+    .then(() => 
+        validateSingUpCPF(cpf)
+    )
+    .then(() => 
         resolve()
-    }).catch(error => {
+    ).catch(error => {
         reject()
-    }).finally(() => {
-        console.log('finalmente')
     })
 })
 
@@ -73,4 +71,5 @@ people_to_validate.forEach(person => {
       console.log("cadastro invalido");
   })
 })
-console.log(people_aproved);
+
+console.log(people_aproved)
