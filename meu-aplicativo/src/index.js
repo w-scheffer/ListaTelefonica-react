@@ -5,6 +5,8 @@ import Clock from './clcock';
 import Toggle from './toggle';
 import LoginControl from './loginControl';
 import * as serviceWorker from './serviceWorker';
+import {EssayForm, NameForm, FlavorForm} from './forms';
+import Reserva from './reservas'
 //import { userInfo } from 'os';
 
 
@@ -25,5 +27,9 @@ import * as serviceWorker from './serviceWorker';
 //     document.getElementById('root')
 // )
 
+ReactDOM.render(
+    <Reserva />,
+    document.getElementById('root')
+)
 
 serviceWorker.unregister();
