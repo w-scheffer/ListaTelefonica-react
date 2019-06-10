@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import Image from 'react-bootstrap/Image'
-
+import Container from 'react-bootstrap/Container';
 
 export default class Lista extends React.Component {
     constructor(props) {
@@ -68,21 +68,23 @@ export default class Lista extends React.Component {
         const havePessoas = pessoas.length > 0;
         return (
             <div className="col-12 mt-5">
-                <div>
-                    <Row className="justify-content-center">
-                        <label>SoftDesign</label>
-                    </Row>
-                </div>
+                <Container>
+                    <div>
+                        <Row className="justify-content-center">
+                            <label>SoftDesign</label>
+                        </Row>
+                    </div>
 
-                <Form>
-                    <Form.Row className="justify-content-center">
-                        <Col className="col-5 col-sm-3">
-                            <Form.Control type="text" placeholder="Nome" />
-                        </Col>
-                        <Button variant="secondary" className="col-5 col-lg-3" onClick={this.getPessoas}>Pesquisar</Button>
-                    </Form.Row>
-                </Form>
-                {havePessoas ? this.renderTable() : <div className="row mt-5 justify-content-center">Sem registros</div>}
+                    <Form>
+                        <Form.Row className="justify-content-center">
+                            <Col className="col-5 col-sm-3">
+                                <Form.Control type="text" placeholder="Nome" />
+                            </Col>
+                            <Button variant="secondary" className="col-5 col-lg-3" onClick={this.getPessoas}>Pesquisar</Button>
+                        </Form.Row>
+                    </Form>
+                    {havePessoas ? this.renderTable() : <div className="row mt-5 justify-content-center">Sem registros</div>}
+                </Container>
             </div>
         );
     }
