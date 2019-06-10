@@ -77,7 +77,7 @@ export default class Lista extends React.Component {
                 <Form>
                     <Form.Row className="justify-content-center">
                         <Col className="col-5 col-sm-3">
-                            <Form.Control placeholder="Nome" />
+                            <Form.Control type="text" placeholder="Nome" />
                         </Col>
                         <Button variant="secondary" className="col-5 col-lg-3" onClick={this.getPessoas}>Pesquisar</Button>
                     </Form.Row>
