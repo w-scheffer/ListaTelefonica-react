@@ -2,20 +2,43 @@ import React from 'react';
 import Table from 'react-bootstrap/Table';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import Button from 'react-bootstrap/Button';
+// import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import Image from 'react-bootstrap/Image'
 import Container from 'react-bootstrap/Container';
 
+
+function LinhaTabela(props){
+    return(
+        <tr key={props.nome}>
+            <td>{props.nome}</td>
+            <td>{props.email}</td>
+            <td>{props.celular}</td>
+            <td>
+                <Image
+                    height="64"
+                    width="64"
+                    src={props.foto}
+                    alt='err'
+                    roundedCircle
+                    thumbnail></Image>
+            </td>
+        </tr>
+    );
+}
+
 export default class Lista extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            nomePesquisa: '',
             pessoas: []
         };
 
         this.getPessoas = this.getPessoas.bind(this);
+        this.setName = this.setName.bind(this);
+        this.renderTable = this.renderTable.bind(this)
     }
 
     getPessoas() {
@@ -29,10 +52,17 @@ export default class Lista extends React.Component {
             });
     }
 
+    setName(event){
+        this.setState({nomePesquisa: event.target.value}, () => {
+            this.getPessoas();
+        });
+    }
+    
     renderTable() {
         const { pessoas } = this.state;
+        const filtrados = pessoas.filter(pessoa => pessoa.nome.toLowerCase().includes(this.state.nomePesquisa.toLowerCase()));
         return (
-            <Table responsive="sm" striped bordered hover size="sm mt-5">
+            <Table responsive striped bordered hover size="sm mt-5">
                 <thead>
                     <tr>
                         <th>Nome</th>
@@ -42,21 +72,7 @@ export default class Lista extends React.Component {
                     </tr>
                 </thead>
                 <tbody>
-                    {pessoas.map(pessoa => (
-                        <tr key={pessoa.nome}>
-                            <td>{pessoa.nome}</td>
-                            <td>{pessoa.email}</td>
-                            <td>{pessoa.celular}</td>
-                            <td>
-                                <Image
-                                    height="64"
-                                    width="64"
-                                    src={pessoa.foto}
-                                    roundedCircle
-                                    thumbnail></Image>
-                            </td>
-                        </tr>
-                    ))}
+                    {filtrados.map(LinhaTabela)}
                 </tbody>
             </Table>
         );
@@ -64,24 +80,25 @@ export default class Lista extends React.Component {
 
 
     render() {
-        const { pessoas } = this.state;
-        const havePessoas = pessoas.length > 0;
+        // const { pessoas } = this.state;
+        // const havePessoas = pessoas.length > 0;
         return (
-                <Container>
-                        <Row className="justify-content-center">
-                            <label>SoftDesign</label>
+                <Container style={{backgroundColor:'lightgrey'}}>
+                        <Row className="justify-content-center" style={{backgroundColor:'red', fontSize:24}}>
+                            {/* <Image>
+                                src='https://softdesign.com.br/wp-content/uploads/softdesign-svg/logo-soft-branco.svg'
+                            </Image> */}
+                            {/* <label>SoftDesign</label> */}
                         </Row>
-                    <Form>
-                        <Form.Row className="justify-self-center">
-                            <Col className="col-md-7 col-sm-3">
-                                <Form.Control type="text" placeholder="Nome" />
-                            </Col>
-                            <Col>
-                                <Button variant="secondary" className="col-5 col-lg-3" onClick={() => this.getPessoas()}>Pesquisar</Button>
-                            </Col>
-                        </Form.Row>
+                    <Form className="w-100">
+                        <Col className="w-100">
+                            <Form.Control type="text" placeholder="Nome do Colaborador" name="barraPesquisa" value={this.state.barraPesquisa} onChange={(event) => {
+                                this.setName(event)
+                            }}/>
+                        </Col>
                     </Form>
-                    {havePessoas ? this.renderTable() : <div className="row mt-5 justify-content-center">Sem registros</div>}
+                    {/* {havePessoas ? this.renderTable() : <div className="row mt-5 justify-content-center">Sem registros</div>} */}
+                    {this.renderTable()}
                 </Container>
         );
     }
