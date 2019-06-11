@@ -32,7 +32,7 @@ export default class Lista extends React.Component {
     renderTable() {
         const { pessoas } = this.state;
         return (
-            <Table striped bordered hover size="sm mt-5">
+            <Table responsive="sm" striped bordered hover size="sm mt-5">
                 <thead>
                     <tr>
                         <th>Nome</th>
@@ -67,25 +67,22 @@ export default class Lista extends React.Component {
         const { pessoas } = this.state;
         const havePessoas = pessoas.length > 0;
         return (
-            <div className="col-12 mt-5">
                 <Container>
-                    <div>
                         <Row className="justify-content-center">
                             <label>SoftDesign</label>
                         </Row>
-                    </div>
-
                     <Form>
-                        <Form.Row className="justify-content-center">
-                            <Col className="col-5 col-sm-3">
+                        <Form.Row className="justify-self-center">
+                            <Col className="col-md-7 col-sm-3">
                                 <Form.Control type="text" placeholder="Nome" />
                             </Col>
-                            <Button variant="secondary" className="col-5 col-lg-3" onClick={this.getPessoas}>Pesquisar</Button>
+                            <Col>
+                                <Button variant="secondary" className="col-5 col-lg-3" onClick={() => this.getPessoas()}>Pesquisar</Button>
+                            </Col>
                         </Form.Row>
                     </Form>
                     {havePessoas ? this.renderTable() : <div className="row mt-5 justify-content-center">Sem registros</div>}
                 </Container>
-            </div>
         );
     }
 }
