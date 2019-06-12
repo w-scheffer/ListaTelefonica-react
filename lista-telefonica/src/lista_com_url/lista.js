@@ -22,7 +22,8 @@ function LinhaTabela(props){
                     src={props.foto}
                     alt='err'
                     roundedCircle
-                    thumbnail></Image>
+                    thumbnail>
+                </Image>
             </td>
         </tr>
     );
@@ -46,16 +47,13 @@ export default class Lista extends React.Component {
             .then((res) => {
                 const pessoas = res.data;
                 this.setState({ pessoas })
-
             }).catch(error => {
                 console.error('erro na requisição: ', error)
             });
     }
 
     setName(event){
-        this.setState({nomePesquisa: event.target.value}, () => {
-            this.getPessoas();
-        });
+        this.setState({nomePesquisa: event.target.value});
     }
     
     renderTable() {
@@ -80,24 +78,19 @@ export default class Lista extends React.Component {
 
 
     render() {
-        // const { pessoas } = this.state;
-        // const havePessoas = pessoas.length > 0;
+        this.getPessoas();
         return (
                 <Container style={{backgroundColor:'lightgrey'}}>
-                        <Row className="justify-content-center" style={{backgroundColor:'red', fontSize:24}}>
-                            {/* <Image>
-                                src='https://softdesign.com.br/wp-content/uploads/softdesign-svg/logo-soft-branco.svg'
-                            </Image> */}
-                            {/* <label>SoftDesign</label> */}
+                        <Row className="justify-content-center" style={{backgroundColor:'red'}}>
+                            <Image src='https://softdesign.com.br/wp-content/uploads/softdesign-svg/logo-soft-branco.svg'></Image>
                         </Row>
-                    <Form className="w-100">
+                    <Form className="w-100 mt-3">
                         <Col className="w-100">
                             <Form.Control type="text" placeholder="Nome do Colaborador" name="barraPesquisa" value={this.state.barraPesquisa} onChange={(event) => {
                                 this.setName(event)
                             }}/>
                         </Col>
                     </Form>
-                    {/* {havePessoas ? this.renderTable() : <div className="row mt-5 justify-content-center">Sem registros</div>} */}
                     {this.renderTable()}
                 </Container>
         );
