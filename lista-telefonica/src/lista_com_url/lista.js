@@ -19,7 +19,7 @@ function LinhaTabela(props){
                 <Image
                     height="64"
                     width="64"
-                    src={props.foto}
+                    src={props.foto || 'http://aealvide.com/wp-content/uploads/2017/07/person-icon-8.png'}
                     alt='err'
                     roundedCircle
                     thumbnail>
